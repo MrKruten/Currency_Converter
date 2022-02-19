@@ -1,23 +1,22 @@
 import React from 'react';
 import { InputNumber } from 'antd';
 
-interface IInputCurrency {
+export interface IInputCurrency {
 	value: number;
-	onChange: (value: number) => void;
+	inputChange: (value: number) => void;
 }
 
 export const InputCurrency: React.FC<IInputCurrency> = ({
 	value,
-	onChange,
+	inputChange,
 }) => {
 	return (
 		<InputNumber
 			min={1}
 			defaultValue={value}
-			value={value}
 			controls={false}
 			keyboard={false}
-			onChange={event => onChange(event)}
+			onChange={event => inputChange(event)}
 		/>
 	);
 };

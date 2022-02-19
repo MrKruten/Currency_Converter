@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Select } from 'antd';
 
-interface ISelectCurrency {
+export interface ISelectCurrency {
 	currencies: Array<string>;
-	onChange: any;
+	selectChange: (value: string) => void;
 }
 
 export const SelectCurrency: React.FC<ISelectCurrency> = ({
 	currencies,
-	onChange,
+	selectChange,
 }) => {
 	const { Option } = Select;
 	return (
 		<Select
 			defaultValue={currencies[0]}
 			style={{ width: 120 }}
-			onChange={onChange}
+			onChange={event => selectChange(event)}
 		>
 			{currencies.map(currency => (
 				<Option value={currency} key={currency}>

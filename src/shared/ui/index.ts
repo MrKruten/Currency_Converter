@@ -1,2 +1,2 @@
-export { InputCurrency } from './Input';
-export { SelectCurrency } from './Select';
+export { InputCurrency } from './InputCurrency';
+export { SelectCurrency } from './SelectCurrency';
