@@ -7,12 +7,12 @@ import {
 	getDateYear,
 } from '../lib/date.helper';
 
-interface IResponseCurrency {
+export interface IResponseCurrency {
 	query: IQuery;
 	data: any;
 }
 
-interface IQuery {
+export interface IQuery {
 	base_currency: string;
 	timestamp: number;
 }
@@ -23,7 +23,7 @@ const getCurrency = async (
 	dateTo?: string
 ): Promise<IResponseCurrency> => {
 	const url = dateFrom
-		? `${API_URL}latest?apikey=${API_KEY}&base_currency=${currency}&date_from=${dateFrom}&date_to=${dateTo}`
+		? `${API_URL}historical?apikey=${API_KEY}&base_currency=${currency}&date_from=${dateFrom}&date_to=${dateTo}`
 		: `${API_URL}latest?apikey=${API_KEY}&base_currency=${currency}`;
 	const response = await fetch(url);
 	return await response.json();
