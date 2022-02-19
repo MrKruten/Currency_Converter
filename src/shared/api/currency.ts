@@ -9,7 +9,7 @@ import {
 
 export interface IResponseCurrency {
 	query: IQuery;
-	data: any;
+	data: { [key in string]: number };
 }
 
 export interface IQuery {

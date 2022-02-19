@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Select } from 'antd';
 
 interface ISelectCurrency {
 	currencies: Array<string>;
-	onChange: (value: string) => void;
+	onChange: any;
 }
 
 export const SelectCurrency: React.FC<ISelectCurrency> = ({
@@ -15,7 +15,7 @@ export const SelectCurrency: React.FC<ISelectCurrency> = ({
 		<Select
 			defaultValue={currencies[0]}
 			style={{ width: 120 }}
-			onChange={event => onChange(event)}
+			onChange={onChange}
 		>
 			{currencies.map(currency => (
 				<Option value={currency} key={currency}>
