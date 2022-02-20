@@ -6,7 +6,11 @@ import {
 	createStore,
 	sample,
 } from 'effector-logger';
-import { getCurrencyToday, IResponseCurrency } from 'shared/api/currency';
+import {
+	getCurrencyToday,
+	IResponseCurrency,
+	IResponseHistoricalCurrency,
+} from 'shared/api/currency';
 import { createGate } from 'effector-react';
 
 // -------------------------- Start fetch data ------------------------------------- //

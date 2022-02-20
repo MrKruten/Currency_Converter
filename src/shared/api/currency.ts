@@ -12,6 +12,11 @@ export interface IResponseCurrency {
 	data: { [key in string]: number };
 }
 
+export interface IResponseHistoricalCurrency {
+	query: IQuery;
+	data: { [key in string]: { [key in string]: number } };
+}
+
 export interface IQuery {
 	base_currency: string;
 	timestamp: number;
