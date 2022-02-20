@@ -10,11 +10,16 @@ export const InputSelect: React.FC<IInputSelect> = ({
 	inputChange,
 	selectChange,
 	currencies,
+	selectValue,
 }) => {
 	return (
 		<>
 			<InputCurrency value={value} inputChange={inputChange} />
-			<SelectCurrency currencies={currencies} selectChange={selectChange} />
+			<SelectCurrency
+				currencies={currencies}
+				selectChange={selectChange}
+				selectValue={selectValue}
+			/>
 		</>
 	);
 };

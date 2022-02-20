@@ -33,7 +33,7 @@ sample({
 	target: getCurrentCurrencyFx,
 });
 
-const $currencies = createStore<IResponseCurrency>({
+export const $currencies = createStore<IResponseCurrency>({
 	data: {},
 	query: {
 		base_currency: 'USD',
