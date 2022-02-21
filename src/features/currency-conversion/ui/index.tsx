@@ -14,6 +14,7 @@ import {
 	ConverterPageGate,
 	fromCurrencyValueChanged,
 	selectClicked,
+	switchButton,
 	toCurrencyValueChanged,
 } from '../model';
 import { ReactComponent as DoubleArrow } from '../lib/doubleArrow.svg';
@@ -40,19 +41,19 @@ export const CurrencyConversion = () => {
 
 	const currencies = useStore($currencies);
 
-	// TODO переписать на Effector
-	useEffect(() => {
-		if (initialSelectedCurrency !== conversionCurrencySelect) {
-			toCurrencyValueChanged(currencies.data[conversionCurrencySelect]);
-		}
-	}, [currencies]);
+	// // TODO переписать на Effector
+	// useEffect(() => {
+	// 	if (initialSelectedCurrency !== conversionCurrencySelect) {
+	// 		toCurrencyValueChanged(currencies.data[conversionCurrencySelect]);
+	// 	}
+	// }, [currencies]);
 
-	const switchSelect = () => {
-		const select = conversionCurrencySelect;
-		conversionCurrencySelected(initialSelectedCurrency);
-		setTimeout(() => fromCurrencyValueChanged(1), 300);
-		selectClicked(select);
-	};
+	// const switchSelect = () => {
+	// 	const select = conversionCurrencySelect;
+	// 	conversionCurrencySelected(initialSelectedCurrency);
+	// 	setTimeout(() => fromCurrencyValueChanged(1), 300);
+	// 	selectClicked(select);
+	// };
 
 	return (
 		<div className='currency-conversion'>
@@ -66,7 +67,7 @@ export const CurrencyConversion = () => {
 				/>
 			</div>
 			<Button
-				onClick={switchSelect}
+				onClick={() => switchButton()}
 				type='text'
 				icon={<DoubleArrow />}
 				className='currency-conversion__button'

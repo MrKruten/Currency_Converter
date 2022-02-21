@@ -1,9 +1,8 @@
 import React from 'react';
 import { Layout, Typography } from 'antd';
 import { GraphCurrency } from 'entities/graph/ui';
-import { CurrencyConversion } from 'features/currency-conversion';
-// import { Converter } from 'widgets/Converter';
-// import { ButtonCurrenciesOfWeek } from 'features/graph-buttons';
+import { Converter } from 'widgets/Converter';
+import { ButtonCurrenciesOfWeek } from 'features/graph-buttons';
 
 const ConverterPage = () => {
 	const { Header, Content, Footer } = Layout;
@@ -26,14 +25,13 @@ const ConverterPage = () => {
 					className='converter-currency'
 					style={{ display: 'flex', justifyContent: 'center' }}
 				>
-					<CurrencyConversion />
-					{/* <Converter /> */}
+					<Converter />
 				</div>
 				<div
 					className='graph-currency'
 					style={{ display: 'flex', justifyContent: 'center', marginTop: 45 }}
 				>
-					{/* <ButtonCurrenciesOfWeek /> */}
+					<ButtonCurrenciesOfWeek />
 					<GraphCurrency />
 				</div>
 			</Content>

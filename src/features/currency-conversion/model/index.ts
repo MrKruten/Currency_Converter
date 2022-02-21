@@ -7,11 +7,7 @@ import {
 	guard,
 	sample,
 } from 'effector-logger';
-import {
-	getCurrencyToday,
-	IResponseCurrency,
-	IResponseHistoricalCurrency,
-} from 'shared/api/currency';
+import { getCurrencyToday, IResponseCurrency } from 'shared/api/currency';
 import { createGate } from 'effector-react';
 
 // ------------------------------- Helper ------------------------------------------ //
@@ -99,7 +95,8 @@ export const $conversionCurrencySelect = createStore('RUB').on(
 sample({
 	clock: conversionCurrencySelected,
 	source: $currencies,
-	fn: ({ data }, clockSelected) => data[clockSelected],
+	fn: ({ data }, clockSelected) =>
+		clockSelected === 'USD' ? 1 : data[clockSelected],
 	target: $currentCurrencyRate,
 });
 
@@ -112,71 +109,71 @@ sample({
 	target: $currentCurrencyRate,
 });
 
-// clock[0] - текущий курс, clock[1] введенное значение, source - введенное значение
-// HE работает если переводить из одной валюты в такую же
 sample({
-	clock: [$currentCurrencyRate, fromCurrencyValueChanged],
-	source: [$currentCurrencyRate, $fromCurrencyValue],
+	clock: fromCurrencyValueChanged,
+	source: $currentCurrencyRate,
 	fn: (clock, source) => {
-		console.log('Clock: ', clock, 'Resource: ', source);
-		if (clock[0] === source) return numberFixed(clock[0] * clock[1]);
-		return numberFixed(clock[0] * source); // работает странно
+		return numberFixed(clock * source);
 	},
 	target: $toCurrencyValue,
 });
 
 sample({
-	clock: [$currentCurrencyRate, toCurrencyValueChanged],
-	source: [$currentCurrencyRate, $toCurrencyValue],
+	clock: toCurrencyValueChanged,
+	source: $currentCurrencyRate,
 	fn: (clock, source) => {
-		console.log('Clock-2: ', clock, 'Resource-2: ', source);
-		return numberFixed(source / clock[0]); // работает странно
+		return numberFixed(source / clock);
 	},
 	target: $fromCurrencyValue,
 });
 
-// ----------- button switch ------------ //
-
-/* export const buttonSwitched = createEvent();
-export const $isSwitchedFields = createStore(true).on(
-	buttonSwitched,
-	(state, _) => !state
-);
-
-const $temp = createStore<string>('');
-
 sample({
-	clock: buttonSwitched,
-	source: $conversionCurrencySelect,
+	clock: $currentCurrencyRate,
+	source: $fromCurrencyValue,
+	fn: (clock, source) => {
+		return numberFixed(clock * source);
+	},
+	target: $toCurrencyValue,
+});
+
+// ----------- button switch ------------ //
+export const switchButton = createEvent();
+const $temp = createStore('');
+const $one = createStore(1);
+sample({
+	clock: switchButton,
+	source: $initialSelectedCurrency,
 	target: $temp,
 });
 
 sample({
+	clock: switchButton,
+	source: $one,
+	target: $fromCurrencyValue,
+});
+
+guard({
 	clock: $temp,
-	source: $initialSelectedCurrency,
+	source: $conversionCurrencySelect,
+	filter: (source, clock) => clock !== '',
+	target: $initialSelectedCurrency,
+});
+
+guard({
+	clock: $initialSelectedCurrency,
+	source: $temp,
+	filter: (source, clock) => clock !== '',
 	target: $conversionCurrencySelect,
 });
 
 sample({
 	clock: $conversionCurrencySelect,
-	source: $temp,
-	target: $initialSelectedCurrency,
+	fn: () => '',
+	target: $temp,
 });
 
 sample({
-	clock: $initialSelectedCurrency,
-	fn: () => {
-		console.log('УРААААА');
-		return 1;
-	},
-	target: $fromCurrencyValue,
-});
-
-guard({
-	clock: $fromCurrencyValue,
-	source: [$temp, $initialSelectedCurrency],
-	filter: (source, clock) => source[0] !== '',
+	clock: $conversionCurrencySelect,
+	source: $initialSelectedCurrency,
 	target: selectClicked,
 });
-
-$fromCurrencyValue.watch(el => console.log('fksdfjsk: ', el)); */
