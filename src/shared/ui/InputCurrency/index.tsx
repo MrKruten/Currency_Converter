@@ -12,7 +12,7 @@ export const InputCurrency: React.FC<IInputCurrency> = ({
 }) => {
 	return (
 		<InputNumber
-			min={1}
+			min={0}
 			value={value}
 			controls={false}
 			keyboard={false}

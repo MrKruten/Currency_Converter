@@ -52,7 +52,12 @@ export const CurrencyConversion = () => {
 
 	const basedValueChange = (value: number) => {
 		setBasedValue(value);
-		const newValue = multiply(value, wantedSelect);
+		let newValue = 0;
+		if (basedSelect !== wantedSelect) {
+			newValue = multiply(value, wantedSelect);
+		} else {
+			newValue = value;
+		}
 		setWantedValue(newValue);
 	};
 
@@ -64,14 +69,23 @@ export const CurrencyConversion = () => {
 
 	const wantedValueChange = (value: number) => {
 		setWantedValue(value);
-		const newValue = divide(value, wantedSelect);
+		let newValue = 0;
+		if (basedSelect !== wantedSelect) {
+			newValue = divide(value, wantedSelect);
+		} else {
+			newValue = value;
+		}
 		setBasedValue(newValue);
 	};
 
 	const wantedSelectChange = (currency: string) => {
 		setWantedSelect(currency);
 		setBasedValue(1);
-		setWantedValue(currencies.data[currency]);
+		if (basedSelect !== currency) {
+			setWantedValue(currencies.data[currency]);
+		} else {
+			setWantedValue(1);
+		}
 	};
 
 	const switchSelect = () => {
