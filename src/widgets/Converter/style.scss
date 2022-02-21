@@ -1,0 +1,13 @@
+.converter {
+  width: 1200px;
+  background: #d8dadd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+
+  &__wrapper {
+    padding: 20px 50px;
+
+  }
+}

@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-	LineChart,
-	Line,
 	CartesianGrid,
+	Legend,
+	Line,
+	LineChart,
+	Tooltip,
 	XAxis,
 	YAxis,
-	Tooltip,
-	Legend,
 } from 'recharts';
 import { IResponseHistoricalCurrency } from 'shared/api/currency';
 
@@ -1158,12 +1158,11 @@ export interface IGraphCurrency {
 
 // prototype
 export const GraphCurrency = () => {
-	const createDataGraph = (data: IResponseHistoricalCurrency) => {
-		const dataGraph = Object.entries(data.data).map(e => ({
-			name: e[0],
-			...e[1],
+	const createDataGraph = (currenciesOfPeriod: IResponseHistoricalCurrency) => {
+		return Object.entries(currenciesOfPeriod.data).map(data => ({
+			name: data[0],
+			...data[1],
 		}));
-		return dataGraph;
 	};
 	const dataGraph = createDataGraph(data);
 	return (

@@ -1,13 +1,11 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
 	combine,
-	createApi,
 	createEffect,
 	createEvent,
 	createStore,
 	guard,
 	sample,
-	split,
 } from 'effector-logger';
 import {
 	getCurrencyToday,
