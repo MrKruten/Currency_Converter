@@ -19,9 +19,11 @@ const createDataGraph = (currenciesOfPeriod: IResponseHistoricalCurrency) => {
 };
 
 export const graphOfWeekButtonClicked = createEvent();
-const graphOfWeekFx = createEffect<string, IResponseHistoricalCurrency, Error>(
-	async currency => await getCurrencyWeek(currency)
-);
+export const graphOfWeekFx = createEffect<
+	string,
+	IResponseHistoricalCurrency,
+	Error
+>(async currency => await getCurrencyWeek(currency));
 
 const $currenciesHistory = createStore<IResponseHistoricalCurrency>({
 	data: {},

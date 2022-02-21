@@ -1,14 +1,19 @@
 import React from 'react';
+import { useGate, useStore } from 'effector-react';
 import { Layout, Typography } from 'antd';
 import { Converter, Graphic } from 'widgets';
-import { useGate } from 'effector-react';
-import { ConverterPageGate } from 'features/currency-conversion/model';
+import { ConverterPageGate } from 'features/currency-conversion';
+import { Loader } from 'shared/ui';
+
+import { $loader } from './model';
 
 const ConverterPage = () => {
 	const { Header, Content, Footer } = Layout;
 	const { Title } = Typography;
 
 	useGate(ConverterPageGate);
+
+	const isLoading = useStore($loader);
 
 	return (
 		<Layout
@@ -51,6 +56,10 @@ const ConverterPage = () => {
 			>
 				Bruh & Khaz 2022
 			</Footer>
+			{(isLoading.graphWeek ||
+				isLoading.graphMouth ||
+				isLoading.graphYear ||
+				isLoading.getAllCurrencies) && <Loader />}
 		</Layout>
 	);
 };

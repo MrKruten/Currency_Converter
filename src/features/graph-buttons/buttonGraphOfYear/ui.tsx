@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonGraph } from 'shared/ui/ButtonGraph';
+import { ButtonGraph } from 'shared/ui';
 
 import { graphOfYearButtonClicked } from './model';
 

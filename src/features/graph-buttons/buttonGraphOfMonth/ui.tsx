@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonGraph } from 'shared/ui/ButtonGraph';
+import { ButtonGraph } from 'shared/ui';
 import { graphOfMonthButtonClicked } from 'features/graph-buttons/buttonGraphOfMonth/model';
 
 export const ButtonGraphOfMonth: React.FC = () => {
