@@ -1,12 +1,15 @@
 import { createEffect, createEvent, createStore, sample } from 'effector';
 import {
-	getCurrencyMonth,
 	getCurrencyWeek,
-	getCurrencyYear,
 	IResponseHistoricalCurrency,
 } from 'shared/api/currency';
+import {
+	$initialSelectedCurrency,
+	ConverterPageGate,
+} from 'features/currency-conversion/model';
 
-import { $initialSelectedCurrency } from '../../currency-conversion/model';
+import { graphOfYearFx } from '../buttonGraphOfYear/model';
+import { graphOfMonthFx } from '../buttonGraphOfMonth/model';
 
 const createDataGraph = (currenciesOfPeriod: IResponseHistoricalCurrency) => {
 	return Object.entries(currenciesOfPeriod.data).map(data => ({
@@ -18,16 +21,6 @@ const createDataGraph = (currenciesOfPeriod: IResponseHistoricalCurrency) => {
 export const graphOfWeekButtonClicked = createEvent();
 const graphOfWeekFx = createEffect<string, IResponseHistoricalCurrency, Error>(
 	async currency => await getCurrencyWeek(currency)
-);
-
-export const graphOfMonthButtonClicked = createEvent();
-const graphOfMonthFx = createEffect<string, IResponseHistoricalCurrency, Error>(
-	async currency => await getCurrencyMonth(currency)
-);
-
-export const graphOfYearButtonClicked = createEvent();
-const graphOfYearFx = createEffect<string, IResponseHistoricalCurrency, Error>(
-	async currency => await getCurrencyYear(currency)
 );
 
 const $currenciesHistory = createStore<IResponseHistoricalCurrency>({
@@ -44,19 +37,13 @@ const $currenciesHistory = createStore<IResponseHistoricalCurrency>({
 export const $dataGraph = $currenciesHistory.map(data => createDataGraph(data));
 
 sample({
-	clock: graphOfWeekButtonClicked,
+	clock: ConverterPageGate.open,
 	source: $initialSelectedCurrency,
 	target: graphOfWeekFx,
 });
 
 sample({
-	clock: graphOfMonthButtonClicked,
+	clock: graphOfWeekButtonClicked,
 	source: $initialSelectedCurrency,
-	target: graphOfMonthFx,
-});
-
-sample({
-	clock: graphOfYearButtonClicked,
-	source: $initialSelectedCurrency,
-	target: graphOfYearFx,
+	target: graphOfWeekFx,
 });

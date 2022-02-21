@@ -1,0 +1,19 @@
+.graph {
+
+  &__currencies {
+    position: relative;
+  }
+
+  &__area {
+    z-index: 3;
+    position: absolute;
+    bottom: 20%;
+    right: 5%;
+
+    & button {
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
+    }
+  }
+}

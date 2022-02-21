@@ -36,8 +36,6 @@ export const getCurrentCurrencyFx = createEffect<
 	Error
 >(async (nameCurrency: string) => await getCurrencyToday(nameCurrency));
 
-getCurrentCurrencyFx.doneData.watch(el => console.log('Я запустилься: ', el));
-
 sample({
 	source: selectClicked,
 	target: getCurrentCurrencyFx,
@@ -52,8 +50,6 @@ export const $currencies = createStore<IResponseCurrency>({
 })
 	.on(getAllCurrenciesFx.doneData, (_, currencies) => currencies)
 	.on(getCurrentCurrencyFx.doneData, (_, currencies) => currencies);
-
-$currencies.watch(el => console.log('Я тоже: ', el));
 
 sample({
 	clock: ConverterPageGate.open,

@@ -8,13 +8,9 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
-import { IResponseHistoricalCurrency } from 'shared/api/currency';
 import { useStore } from 'effector-react';
-
-// eslint-disable-next-line no-restricted-imports,import/no-cycle
-import { $dataGraph } from '../../../features/graph-buttons/buttonCurrenciesOfWeek/model';
-// eslint-disable-next-line no-restricted-imports
-import { $conversionCurrencySelect } from '../../../features/currency-conversion/model';
+import { $dataGraph } from 'features/graph-buttons/buttonGraphOfWeek/model';
+import { $conversionCurrencySelect } from 'features/currency-conversion/model';
 
 interface DataGraphType {
 	name: string;

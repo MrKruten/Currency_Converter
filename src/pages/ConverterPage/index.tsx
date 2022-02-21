@@ -1,12 +1,15 @@
 import React from 'react';
 import { Layout, Typography } from 'antd';
-import { GraphCurrency } from 'entities/graph/ui';
-import { Converter } from 'widgets/Converter';
-import { ButtonCurrenciesOfWeek } from 'features/graph-buttons';
+import { Converter, Graphic } from 'widgets';
+import { useGate } from 'effector-react';
+import { ConverterPageGate } from 'features/currency-conversion/model';
 
 const ConverterPage = () => {
 	const { Header, Content, Footer } = Layout;
 	const { Title } = Typography;
+
+	useGate(ConverterPageGate);
+
 	return (
 		<Layout style={{ height: '100vh', display: 'flex' }}>
 			<Header style={{ textAlign: 'center', color: 'white' }}>
@@ -31,8 +34,7 @@ const ConverterPage = () => {
 					className='graph-currency'
 					style={{ display: 'flex', justifyContent: 'center', marginTop: 45 }}
 				>
-					<ButtonCurrenciesOfWeek />
-					<GraphCurrency />
+					<Graphic />
 				</div>
 			</Content>
 			<Footer
