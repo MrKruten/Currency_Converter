@@ -1,32 +1,62 @@
 import { createEffect, createEvent, createStore, sample } from 'effector';
 import {
+	getCurrencyMonth,
 	getCurrencyWeek,
-	IResponseCurrency,
+	getCurrencyYear,
 	IResponseHistoricalCurrency,
 } from 'shared/api/currency';
 
-export const graphOfWeekButtonClicked = createEvent();
-const graphOfWeekFx = createEffect<
-	void,
-	IResponseHistoricalCurrency | IResponseCurrency,
-	Error
->(async () => await getCurrencyWeek('USD'));
+import { $initialSelectedCurrency } from '../../currency-conversion/model';
 
-export const $currenciesOfWeek = createStore<
-	IResponseHistoricalCurrency | IResponseCurrency
->({
+const createDataGraph = (currenciesOfPeriod: IResponseHistoricalCurrency) => {
+	return Object.entries(currenciesOfPeriod.data).map(data => ({
+		name: data[0],
+		...data[1],
+	}));
+};
+
+export const graphOfWeekButtonClicked = createEvent();
+const graphOfWeekFx = createEffect<string, IResponseHistoricalCurrency, Error>(
+	async currency => await getCurrencyWeek(currency)
+);
+
+export const graphOfMonthButtonClicked = createEvent();
+const graphOfMonthFx = createEffect<string, IResponseHistoricalCurrency, Error>(
+	async currency => await getCurrencyMonth(currency)
+);
+
+export const graphOfYearButtonClicked = createEvent();
+const graphOfYearFx = createEffect<string, IResponseHistoricalCurrency, Error>(
+	async currency => await getCurrencyYear(currency)
+);
+
+const $currenciesHistory = createStore<IResponseHistoricalCurrency>({
 	data: {},
 	query: {
 		base_currency: 'USD',
 		timestamp: 0,
 	},
-}).on(graphOfWeekFx.doneData, (_, data) => data);
+})
+	.on(graphOfWeekFx.doneData, (_, data) => data)
+	.on(graphOfMonthFx.doneData, (_, data) => data)
+	.on(graphOfYearFx.doneData, (_, data) => data);
+
+export const $dataGraph = $currenciesHistory.map(data => createDataGraph(data));
 
 sample({
-	source: graphOfWeekButtonClicked,
+	clock: graphOfWeekButtonClicked,
+	source: $initialSelectedCurrency,
 	target: graphOfWeekFx,
 });
 
-$currenciesOfWeek.watch(el => console.log(el));
+sample({
+	clock: graphOfMonthButtonClicked,
+	source: $initialSelectedCurrency,
+	target: graphOfMonthFx,
+});
 
-$currenciesOfWeek.watch(el => console.log(el));
+sample({
+	clock: graphOfYearButtonClicked,
+	source: $initialSelectedCurrency,
+	target: graphOfYearFx,
+});

@@ -19,7 +19,7 @@ export const getDateMonth = () => {
 
 export const getDateYear = () => {
 	const date = new Date(
-		new Date().setFullYear(new Date().getFullYear() - 1)
+		new Date().setMonth(new Date().getMonth() - 6)
 	).toISOString();
 	return date.split('T')[0];
 };
