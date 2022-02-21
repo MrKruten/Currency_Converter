@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
 	combine,
 	createEffect,
@@ -6,13 +5,13 @@ import {
 	createStore,
 	guard,
 	sample,
-} from 'effector-logger';
-import { getCurrencyToday, IResponseCurrency } from 'shared/api/currency';
+} from 'effector';
 import { createGate } from 'effector-react';
+import { getCurrencyToday, IResponseCurrency } from 'shared/api/currency';
 
 // ------------------------------- Helper ------------------------------------------ //
 
-const numberFixed = (value: number) => +value.toFixed(2);
+const numberFixed = (value: number) => +value.toFixed(3);
 
 // -------------------------- Start fetch data ------------------------------------- //
 
@@ -72,7 +71,7 @@ export const $currenciesList = combine($currencies, ({ data, query }) => {
 // ----------------------------------------------------------------------- //
 
 export const fromCurrencyValueChanged = createEvent<number>(); // input left
-export const $fromCurrencyValue = createStore<number>(0).on(
+export const $fromCurrencyValue = createStore<number>(1).on(
 	fromCurrencyValueChanged,
 	(_, changedValue) => changedValue
 );
@@ -103,48 +102,37 @@ sample({
 sample({
 	clock: $currencies,
 	source: $conversionCurrencySelect,
-	fn: (clock, { data }) => {
-		return data[clock];
-	},
+	fn: (clock, { data }) => data[clock],
 	target: $currentCurrencyRate,
 });
 
 sample({
 	clock: fromCurrencyValueChanged,
 	source: $currentCurrencyRate,
-	fn: (clock, source) => {
-		return numberFixed(clock * source);
-	},
+	fn: (clock, source) => numberFixed(clock * source),
 	target: $toCurrencyValue,
 });
 
 sample({
 	clock: toCurrencyValueChanged,
 	source: $currentCurrencyRate,
-	fn: (clock, source) => {
-		return numberFixed(source / clock);
-	},
+	fn: (clock, source) => numberFixed(source / clock),
 	target: $fromCurrencyValue,
 });
 
 sample({
 	clock: $currentCurrencyRate,
 	source: $fromCurrencyValue,
-	fn: (clock, source) => {
-		return numberFixed(clock * source);
-	},
+	fn: (clock, source) => numberFixed(clock * source),
 	target: $toCurrencyValue,
 });
 
 // ----------- button switch ------------ //
+
 export const switchButton = createEvent();
+
 const $temp = createStore('');
 const $one = createStore(1);
-sample({
-	clock: switchButton,
-	source: $initialSelectedCurrency,
-	target: $temp,
-});
 
 sample({
 	clock: switchButton,
@@ -152,17 +140,23 @@ sample({
 	target: $fromCurrencyValue,
 });
 
+sample({
+	clock: switchButton,
+	source: $initialSelectedCurrency,
+	target: $temp,
+});
+
 guard({
 	clock: $temp,
 	source: $conversionCurrencySelect,
-	filter: (source, clock) => clock !== '',
+	filter: (_, clock) => clock !== '',
 	target: $initialSelectedCurrency,
 });
 
 guard({
 	clock: $initialSelectedCurrency,
 	source: $temp,
-	filter: (source, clock) => clock !== '',
+	filter: (source, _) => source !== '',
 	target: $conversionCurrencySelect,
 });
 

@@ -25,35 +25,11 @@ export const CurrencyConversion = () => {
 	useGate(ConverterPageGate);
 	const currenciesList = useStore($currenciesList);
 
-	useEffect(() => {
-		// Для базовых настроек
-		setTimeout(() => {
-			fromCurrencyValueChanged(1);
-			conversionCurrencySelected('RUB');
-		}, 350);
-	}, []);
-
 	const fromCurrencyValue = useStore($fromCurrencyValue);
 	const toCurrencyValue = useStore($toCurrencyValue);
 
 	const conversionCurrencySelect = useStore($conversionCurrencySelect);
 	const initialSelectedCurrency = useStore($initialSelectedCurrency);
-
-	const currencies = useStore($currencies);
-
-	// // TODO переписать на Effector
-	// useEffect(() => {
-	// 	if (initialSelectedCurrency !== conversionCurrencySelect) {
-	// 		toCurrencyValueChanged(currencies.data[conversionCurrencySelect]);
-	// 	}
-	// }, [currencies]);
-
-	// const switchSelect = () => {
-	// 	const select = conversionCurrencySelect;
-	// 	conversionCurrencySelected(initialSelectedCurrency);
-	// 	setTimeout(() => fromCurrencyValueChanged(1), 300);
-	// 	selectClicked(select);
-	// };
 
 	return (
 		<div className='currency-conversion'>
