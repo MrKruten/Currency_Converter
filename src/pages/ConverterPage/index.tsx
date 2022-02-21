@@ -7,7 +7,6 @@ import { ButtonCurrenciesOfWeek } from 'features/graph-buttons';
 const ConverterPage = () => {
 	const { Header, Content, Footer } = Layout;
 	const { Title } = Typography;
-	// @ts-ignore
 	return (
 		<Layout style={{ height: '100vh', display: 'flex' }}>
 			<Header style={{ textAlign: 'center', color: 'white' }}>

@@ -1,0 +1,28 @@
+.currency-conversion {
+  display: flex;
+  align-items: center;
+
+  &__button {
+    display: flex;
+    align-items: center;
+    background: none;
+    @media (any-hover: hover) {
+      &:hover {
+        background: none;
+
+        svg {
+          fill: #40a9ff;
+          transition: all .2s linear;
+        }
+      }
+    }
+  }
+
+  &__field:first-child {
+    margin-right: 20px;
+  }
+
+  &__field:last-child {
+    margin-left: 20px;
+  }
+}
