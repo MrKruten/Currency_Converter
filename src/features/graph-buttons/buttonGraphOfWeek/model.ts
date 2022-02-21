@@ -47,3 +47,9 @@ sample({
 	source: $initialSelectedCurrency,
 	target: graphOfWeekFx,
 });
+
+// TRABLE
+sample({
+	clock: $initialSelectedCurrency,
+	target: graphOfWeekFx,
+});

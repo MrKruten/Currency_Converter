@@ -11,14 +11,17 @@ const ConverterPage = () => {
 	useGate(ConverterPageGate);
 
 	return (
-		<Layout style={{ height: '100vh', display: 'flex' }}>
+		<Layout
+			style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}
+		>
 			<Header style={{ textAlign: 'center', color: 'white' }}>
 				Currency converter
 			</Header>
 			<Content
 				style={{
 					padding: '0 25px',
-					flex: '0 1 100%',
+					flex: '1 1 auto',
+					height: '100%',
 				}}
 			>
 				<Title style={{ textAlign: 'center', marginTop: 7 }}>
@@ -39,6 +42,7 @@ const ConverterPage = () => {
 			</Content>
 			<Footer
 				style={{
+					marginTop: 15,
 					alignItems: 'center',
 					textAlign: 'center',
 					background: '#001529',

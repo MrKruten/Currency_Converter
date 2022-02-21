@@ -4,6 +4,7 @@ import {
 	Legend,
 	Line,
 	LineChart,
+	ResponsiveContainer,
 	Tooltip,
 	XAxis,
 	YAxis,
@@ -26,15 +27,20 @@ export const GraphCurrency = () => {
 	const wantedValue = useStore($conversionCurrencySelect);
 	return (
 		<LineChart
-			width={600}
-			height={300}
+			width={1400}
+			height={380}
 			data={dataGraph}
 			margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
 		>
-			<Line type='monotone' dataKey={wantedValue} stroke='#8884d8' />
+			<Line
+				type='monotone'
+				dataKey={wantedValue}
+				stroke='#8884d8'
+				strokeWidth={2}
+			/>
 			<CartesianGrid stroke='#ccc' strokeDasharray='5 5' />
 			<XAxis dataKey='name' />
-			<YAxis />
+			<YAxis domain={['dataMin', 'auto']} />
 			<Legend />
 			<Tooltip />
 		</LineChart>
