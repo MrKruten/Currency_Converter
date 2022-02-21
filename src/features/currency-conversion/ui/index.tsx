@@ -1,85 +1,122 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGate, useStore } from 'effector-react';
 import { InputSelect } from 'entities/InputSelect';
 import { Button } from 'antd';
 
 import {
-	$conversionCurrencySelect,
 	$currencies,
 	$currenciesList,
-	$fromCurrencyValue,
-	$initialSelectedCurrency,
-	$toCurrencyValue,
-	conversionCurrencySelected,
 	ConverterPageGate,
-	fromCurrencyValueChanged,
 	selectClicked,
-	toCurrencyValueChanged,
 } from '../model';
-import { ReactComponent as DoubleArrow } from '../lib/doubleArrow.svg';
 
-import './style.scss';
+const SwitchIcon = () => {
+	return (
+		<svg
+			xmlns='http://www.w3.org/2000/svg'
+			viewBox='0 0 20 20'
+			fill='currentColor'
+		>
+			<path d='M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z' />
+		</svg>
+	);
+};
 
 export const CurrencyConversion = () => {
 	useGate(ConverterPageGate);
 	const currenciesList = useStore($currenciesList);
-
-	useEffect(() => {
-		// Для базовых настроек
-		setTimeout(() => {
-			fromCurrencyValueChanged(1);
-			conversionCurrencySelected('RUB');
-		}, 350);
-	}, []);
-
-	const fromCurrencyValue = useStore($fromCurrencyValue);
-	const toCurrencyValue = useStore($toCurrencyValue);
-
-	const conversionCurrencySelect = useStore($conversionCurrencySelect);
-	const initialSelectedCurrency = useStore($initialSelectedCurrency);
-
 	const currencies = useStore($currencies);
 
-	// TODO переписать на Effector
+	const [basedValue, setBasedValue] = useState(1);
+	const [basedSelect, setBasedSelect] = useState(currenciesList[0]);
+	const [wantedValue, setWantedValue] = useState<number>(1);
+	const [wantedSelect, setWantedSelect] = useState(currenciesList[0]);
+
 	useEffect(() => {
-		if (initialSelectedCurrency !== conversionCurrencySelect) {
-			toCurrencyValueChanged(currencies.data[conversionCurrencySelect]);
+		if (basedSelect !== wantedSelect) {
+			setWantedValue(currencies.data[wantedSelect]);
 		}
 	}, [currencies]);
 
+	const multiply = (value: number, currency: string): number => {
+		return basedSelect === wantedSelect
+			? basedValue
+			: value * currencies.data[currency];
+	};
+
+	const divide = (value: number, currency: string): number => {
+		return basedSelect === wantedSelect
+			? basedValue
+			: value / currencies.data[currency];
+	};
+
+	const basedValueChange = (value: number) => {
+		setBasedValue(value);
+		let newValue = 0;
+		if (basedSelect !== wantedSelect) {
+			newValue = multiply(value, wantedSelect);
+		} else {
+			newValue = value;
+		}
+		setWantedValue(newValue);
+	};
+
+	const basedSelectChange = (currency: string) => {
+		setBasedValue(1);
+		setBasedSelect(currency);
+		selectClicked(currency);
+	};
+
+	const wantedValueChange = (value: number) => {
+		setWantedValue(value);
+		let newValue = 0;
+		if (basedSelect !== wantedSelect) {
+			newValue = divide(value, wantedSelect);
+		} else {
+			newValue = value;
+		}
+		setBasedValue(newValue);
+	};
+
+	const wantedSelectChange = (currency: string) => {
+		setWantedSelect(currency);
+		setBasedValue(1);
+		if (basedSelect !== currency) {
+			setWantedValue(currencies.data[currency]);
+		} else {
+			setWantedValue(1);
+		}
+	};
+
 	const switchSelect = () => {
-		const select = conversionCurrencySelect;
-		conversionCurrencySelected(initialSelectedCurrency);
-		setTimeout(() => fromCurrencyValueChanged(1), 300);
+		const select = wantedSelect;
+		setWantedSelect(basedSelect);
+		setBasedSelect(select);
+		setBasedValue(1);
 		selectClicked(select);
 	};
 
 	return (
-		<div className='currency-conversion'>
-			<div className='currency-conversion__field'>
-				<InputSelect
-					inputChange={fromCurrencyValueChanged}
-					currencies={currenciesList}
-					selectChange={selectClicked}
-					value={fromCurrencyValue}
-					selectValue={initialSelectedCurrency}
-				/>
-			</div>
-			<Button
-				onClick={switchSelect}
-				type='text'
-				icon={<DoubleArrow />}
-				className='currency-conversion__button'
+		<>
+			<InputSelect
+				value={basedValue}
+				inputChange={basedValueChange}
+				currencies={currenciesList}
+				selectChange={basedSelectChange}
+				selectValue={basedSelect}
 			/>
-			<div className='currency-conversion__field'>
-				<InputSelect
-					inputChange={toCurrencyValueChanged}
-					currencies={currenciesList}
-					selectChange={conversionCurrencySelected}
-					value={toCurrencyValue}
-					selectValue={conversionCurrencySelect}
-				/>
-			</div>
-		</div>
+			<Button
+				onClick={() => switchSelect()}
+				type='text'
+				icon={<SwitchIcon />}
+			/>
+			<InputSelect
+				value={wantedValue}
+				inputChange={wantedValueChange}
+				currencies={currenciesList}
+				selectChange={wantedSelectChange}
+				selectValue={wantedSelect}
+			/>
+		</>
 	);
 };
