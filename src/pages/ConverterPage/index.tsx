@@ -23,7 +23,12 @@ const ConverterPage = () => {
 
 	return (
 		<Layout
-			style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}
+			style={{
+				minHeight: '100%',
+				display: 'flex',
+				flexDirection: 'column',
+				backgroundColor: 'white',
+			}}
 		>
 			<Header style={{ textAlign: 'center', background: '#3AE17D' }}>
 				<Title style={{ color: 'white', fontSize: 28, marginTop: 10 }}>
