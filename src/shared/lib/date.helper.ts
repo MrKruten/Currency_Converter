@@ -17,7 +17,7 @@ export const getDateMonth = () => {
 	return date.split('T')[0];
 };
 
-export const getDateYear = () => {
+export const getDateHalfYear = () => {
 	const date = new Date(
 		new Date().setMonth(new Date().getMonth() - 6)
 	).toISOString();

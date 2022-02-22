@@ -1,10 +1,10 @@
 import { API_KEY, API_URL } from 'shared/config';
 
 import {
+	getDateHalfYear,
 	getDateMonth,
 	getDateToday,
 	getDateWeek,
-	getDateYear,
 } from '../lib/date.helper';
 
 export interface IResponseCurrency {
@@ -55,8 +55,8 @@ export const getCurrencyMonth = async (currency: string) => {
 	return await getCurrencyHistorical(currency, dateFrom, dateTo);
 };
 
-export const getCurrencyYear = async (currency: string) => {
+export const getCurrencyHalfYear = async (currency: string) => {
 	const dateTo = getDateToday();
-	const dateFrom = getDateYear();
+	const dateFrom = getDateHalfYear();
 	return await getCurrencyHistorical(currency, dateFrom, dateTo);
 };

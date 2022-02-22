@@ -8,7 +8,7 @@ import {
 	ConverterPageGate,
 } from 'features/currency-conversion/model';
 
-import { graphOfYearFx } from '../buttonGraphOfYear/model';
+import { graphOfHalfYearFx } from '../buttonGraphOfHalfYear/model';
 import { graphOfMonthFx } from '../buttonGraphOfMonth/model';
 
 const createDataGraph = (currenciesOfPeriod: IResponseHistoricalCurrency) => {
@@ -34,7 +34,7 @@ const $currenciesHistory = createStore<IResponseHistoricalCurrency>({
 })
 	.on(graphOfWeekFx.doneData, (_, data) => data)
 	.on(graphOfMonthFx.doneData, (_, data) => data)
-	.on(graphOfYearFx.doneData, (_, data) => data);
+	.on(graphOfHalfYearFx.doneData, (_, data) => data);
 
 export const $dataGraph = $currenciesHistory.map(data => createDataGraph(data));
 

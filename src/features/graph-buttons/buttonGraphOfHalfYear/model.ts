@@ -1,19 +1,19 @@
 import { createEffect, createEvent, sample } from 'effector';
 import {
-	getCurrencyYear,
+	getCurrencyHalfYear,
 	IResponseHistoricalCurrency,
 } from 'shared/api/currency';
 import { $initialSelectedCurrency } from 'features/currency-conversion/model';
 
-export const graphOfYearButtonClicked = createEvent();
-export const graphOfYearFx = createEffect<
+export const graphOfHalfYearButtonClicked = createEvent();
+export const graphOfHalfYearFx = createEffect<
 	string,
 	IResponseHistoricalCurrency,
 	Error
->(async currency => await getCurrencyYear(currency));
+>(async currency => await getCurrencyHalfYear(currency));
 
 sample({
-	clock: graphOfYearButtonClicked,
+	clock: graphOfHalfYearButtonClicked,
 	source: $initialSelectedCurrency,
-	target: graphOfYearFx,
+	target: graphOfHalfYearFx,
 });
