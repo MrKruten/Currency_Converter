@@ -1,7 +1,7 @@
 import { combine } from 'effector';
 import {
 	graphOfWeekFx,
-	graphOfYearFx,
+	graphOfHalfYearFx,
 	graphOfMonthFx,
 } from 'features/graph-buttons';
 import { getAllCurrenciesFx } from 'features/currency-conversion/model';
@@ -9,6 +9,6 @@ import { getAllCurrenciesFx } from 'features/currency-conversion/model';
 export const $loader = combine({
 	graphWeek: graphOfWeekFx.pending,
 	graphMouth: graphOfMonthFx.pending,
-	graphYear: graphOfYearFx.pending,
+	graphYear: graphOfHalfYearFx.pending,
 	getAllCurrencies: getAllCurrenciesFx.pending,
 });

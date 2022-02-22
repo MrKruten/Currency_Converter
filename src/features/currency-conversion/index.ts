@@ -1,2 +1,6 @@
 export { CurrencyConversion } from './ui';
-export { ConverterPageGate } from './model/index';
+export {
+	ConverterPageGate,
+	$conversionCurrencySelect,
+	$initialSelectedCurrency,
+} from './model/index';

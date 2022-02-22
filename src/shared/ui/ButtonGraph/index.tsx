@@ -11,6 +11,7 @@ export const ButtonGraph: React.FC<IButtonGraph> = ({ onClick, children }) => {
 		<Button
 			type='primary'
 			size='small'
+			style={{ background: '#3AE17D', borderColor: '#32BF58' }}
 			onClick={onClick}
 			className='button-graph'
 		>

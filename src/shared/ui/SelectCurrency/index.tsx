@@ -1,5 +1,6 @@
 import React from 'react';
 import { Select } from 'antd';
+import './style.scss';
 
 export interface ISelectCurrency {
 	currencies: Array<string>;

@@ -4,6 +4,10 @@ import { Layout, Typography } from 'antd';
 import { Converter, Graphic } from 'widgets';
 import { ConverterPageGate } from 'features/currency-conversion';
 import { Loader } from 'shared/ui';
+import {
+	$conversionCurrencySelect,
+	$initialSelectedCurrency,
+} from 'features/currency-conversion/model';
 
 import { $loader } from './model';
 
@@ -14,30 +18,36 @@ const ConverterPage = () => {
 	useGate(ConverterPageGate);
 
 	const isLoading = useStore($loader);
+	const basedCurrency = useStore($initialSelectedCurrency);
+	const wantedCurrency = useStore($conversionCurrencySelect);
 
 	return (
 		<Layout
 			style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}
 		>
-			<Header style={{ textAlign: 'center', color: 'white' }}>
-				Currency converter
+			<Header style={{ textAlign: 'center', background: '#3AE17D' }}>
+				<Title style={{ color: 'white', fontSize: 28, marginTop: 10 }}>
+					Currency converter
+				</Title>
 			</Header>
 			<Content
 				style={{
+					marginTop: 30,
 					padding: '0 25px',
 					flex: '1 1 auto',
 					height: '100%',
 				}}
 			>
-				<Title style={{ textAlign: 'center', marginTop: 7 }}>
-					Converter Page
-				</Title>
 				<div
 					className='converter-currency'
 					style={{ display: 'flex', justifyContent: 'center' }}
 				>
 					<Converter />
 				</div>
+				<Title level={4} style={{ marginTop: 20, textAlign: 'center' }}>
+					Dynamics of the {basedCurrency} exchange rate by {wantedCurrency}, for
+					1 {basedCurrency}
+				</Title>
 				<div
 					className='graph-currency'
 					style={{ display: 'flex', justifyContent: 'center', marginTop: 45 }}
@@ -47,11 +57,12 @@ const ConverterPage = () => {
 			</Content>
 			<Footer
 				style={{
-					marginTop: 15,
-					alignItems: 'center',
 					textAlign: 'center',
-					background: '#001529',
+					background: '#32BF58',
 					color: 'white',
+					position: 'absolute',
+					bottom: 0,
+					width: '100%',
 				}}
 			>
 				Bruh & Khaz 2022

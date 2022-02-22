@@ -3,7 +3,7 @@ import { GraphCurrency } from 'entities/graph/ui';
 import {
 	ButtonGraphOfMonth,
 	ButtonGraphOfWeek,
-	ButtonGraphOfYear,
+	ButtonGraphOfHalfYear,
 } from 'features/graph-buttons';
 import './style.scss';
 
@@ -15,7 +15,7 @@ export const Graphic = () => {
 				<div className='graph__area'>
 					<ButtonGraphOfWeek />
 					<ButtonGraphOfMonth />
-					<ButtonGraphOfYear />
+					<ButtonGraphOfHalfYear />
 				</div>
 			</div>
 		</div>
