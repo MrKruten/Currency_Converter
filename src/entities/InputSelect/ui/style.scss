@@ -1,0 +1,7 @@
+.ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background-color: rgba(58, 225, 125, 1);
+}
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: rgba(58, 225, 125, .6);
+}

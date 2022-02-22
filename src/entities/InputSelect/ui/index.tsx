@@ -2,6 +2,7 @@ import React from 'react';
 import { IInputCurrency } from 'shared/ui/InputCurrency';
 import { ISelectCurrency } from 'shared/ui/SelectCurrency';
 import { InputCurrency, SelectCurrency } from 'shared/ui';
+import './style.scss';
 
 interface IInputSelect extends IInputCurrency, ISelectCurrency {}
 

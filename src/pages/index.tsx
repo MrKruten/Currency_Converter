@@ -7,7 +7,7 @@ export const Router = () => {
 	return (
 		<Routes>
 			<Route path='/' element={<ConverterPage />} />
-			<Route path='*' element={<h1>Redirect</h1>} />
+			<Route path='*' element={<ConverterPage />} />
 		</Routes>
 	);
 };

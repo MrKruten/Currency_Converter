@@ -7,7 +7,13 @@ export const Loader = () => {
 	return (
 		<div className='loader'>
 			<Spin
-				indicator={<LoadingOutlined style={{ fontSize: 78 }} spin size={78} />}
+				indicator={
+					<LoadingOutlined
+						style={{ fontSize: 78, color: '#3AE17D' }}
+						spin
+						size={78}
+					/>
+				}
 			/>
 		</div>
 	);
