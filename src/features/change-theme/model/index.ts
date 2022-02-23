@@ -13,7 +13,9 @@ const isSwitchActive = createStore<boolean>(false).on(
 	(_, switchState) => switchState
 );
 
-const isActive = guard({
+// Пока что не реализованно
+
+/* const isActive = guard({
 	clock: isSwitchActive,
 	filter: clock => clock,
 });
@@ -31,4 +33,4 @@ const setCurrentThemeFx = createEffect<boolean, void, Error>(switchState => {
 sample({
 	clock: [isActive, isInactive],
 	target: setCurrentThemeFx,
-});
+}); */
