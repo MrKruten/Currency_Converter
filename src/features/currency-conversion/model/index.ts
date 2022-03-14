@@ -42,10 +42,14 @@ sample({
 });
 
 export const $currencies = createStore<IResponseCurrency>({
-	data: {},
-	query: {
-		base_currency: 'USD',
-		timestamp: 0,
+	data: {
+		USD: {
+			code: 'USD',
+			value: 1,
+		},
+	},
+	meta: {
+		last_updated_at: '2021',
 	},
 })
 	.on(getAllCurrenciesFx.doneData, (_, currencies) => currencies)
@@ -57,11 +61,8 @@ sample({
 	target: getAllCurrenciesFx,
 });
 
-export const $currenciesList = combine($currencies, ({ data, query }) => {
-	const newData = [...Object.keys(data)].filter(
-		currency => currency !== query.base_currency
-	);
-	return [query.base_currency, ...newData];
+export const $currenciesList = combine($currencies, ({ data }) => {
+	return [...Object.keys(data)];
 });
 
 // ----------------------------------------------------------------------- //
@@ -91,14 +92,14 @@ sample({
 	clock: conversionCurrencySelected,
 	source: $currencies,
 	fn: ({ data }, clockSelected) =>
-		clockSelected === 'USD' ? 1 : data[clockSelected],
+		clockSelected === 'USD' ? 1 : data[clockSelected].value,
 	target: $currentCurrencyRate,
 });
 
 sample({
 	clock: $currencies,
 	source: $conversionCurrencySelect,
-	fn: (clock, { data }) => data[clock],
+	fn: (clock, { data }) => data[clock].value,
 	target: $currentCurrencyRate,
 });
 

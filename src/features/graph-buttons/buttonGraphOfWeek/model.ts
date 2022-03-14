@@ -12,10 +12,19 @@ import { graphOfHalfYearFx } from '../buttonGraphOfHalfYear/model';
 import { graphOfMonthFx } from '../buttonGraphOfMonth/model';
 
 const createDataGraph = (currenciesOfPeriod: IResponseHistoricalCurrency) => {
-	return Object.entries(currenciesOfPeriod.data).map(data => ({
-		name: data[0],
-		...data[1],
-	}));
+	const data = currenciesOfPeriod.data.map(el => {
+		const temp = Object.values(el.currencies);
+		const currencies = {};
+		for (let i = 0; i < temp.length; i++) {
+			// @ts-ignore
+			currencies[temp[i].code] = temp[i].value;
+		}
+		return {
+			name: el.datetime.slice(0, 10),
+			...currencies,
+		};
+	});
+	return data;
 };
 
 export const graphOfWeekButtonClicked = createEvent();
@@ -26,11 +35,7 @@ export const graphOfWeekFx = createEffect<
 >(async currency => await getCurrencyWeek(currency));
 
 const $currenciesHistory = createStore<IResponseHistoricalCurrency>({
-	data: {},
-	query: {
-		base_currency: 'USD',
-		timestamp: 0,
-	},
+	data: [],
 })
 	.on(graphOfWeekFx.doneData, (_, data) => data)
 	.on(graphOfMonthFx.doneData, (_, data) => data)
