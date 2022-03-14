@@ -8,18 +8,17 @@ import {
 } from '../lib/date.helper';
 
 export interface IResponseCurrency {
-	query: IQuery;
-	data: { [key in string]: number };
+	meta: { last_updated_at: string };
+	data: { [key in string]: { code: string; value: number } };
 }
+
+export type IRangeCurrency = {
+	datetime: string;
+	currencies: { [key in string]: { code: string; value: number } };
+};
 
 export interface IResponseHistoricalCurrency {
-	query: IQuery;
-	data: { [key in string]: { [key in string]: number } };
-}
-
-export interface IQuery {
-	base_currency: string;
-	timestamp: number;
+	data: Array<IRangeCurrency>;
 }
 
 const getCurrencyLatest = async (
@@ -35,7 +34,7 @@ const getCurrencyHistorical = async (
 	dateFrom: string,
 	dateTo: string
 ): Promise<IResponseHistoricalCurrency> => {
-	const url = `${API_URL}historical?apikey=${API_KEY}&base_currency=${currency}&date_from=${dateFrom}&date_to=${dateTo}`;
+	const url = `${API_URL}range?apikey=${API_KEY}&base_currency=${currency}&datetime_start=${dateFrom}&datetime_end=${dateTo}&accuracy=day`;
 	const response = await fetch(url);
 	return await response.json();
 };

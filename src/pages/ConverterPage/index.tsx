@@ -70,7 +70,7 @@ const ConverterPage = () => {
 					width: '100%',
 				}}
 			>
-				Bruh & Khaz 2022
+				Industrial practice 2022
 			</Footer>
 			{(isLoading.graphWeek ||
 				isLoading.graphMouth ||
